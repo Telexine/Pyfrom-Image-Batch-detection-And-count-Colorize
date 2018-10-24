@@ -87,14 +87,17 @@ yolo_model.summary()
 yolo_outputs = yolo_head(yolo_model.output, anchors, len(class_names))
 scores, boxes, classes = yolo_eval(yolo_outputs, image_shape)
 
-def predict(sess, image_file):
+def predict(sess, image_file,specificPath=False):
     """
     Returns:
     out_scores -- tensor of shape (None, ), scores of the predicted boxes
     out_boxes -- tensor of shape (None, 4), coordinates of the predicted boxes
     out_classes -- tensor of shape (None, ), class index of the predicted boxes
     """
-    image, image_data = preprocess_image("temp/" + image_file, model_image_size=(608, 608))
+    if specificPath:
+        image, image_data = preprocess_image( image_file, model_image_size=(608, 608))
+    else:
+        image, image_data = preprocess_image("temp/" +image_file, model_image_size=(608, 608))
     out_scores, out_boxes, out_classes = sess.run([scores, boxes, classes],
                                                   feed_dict={yolo_model.input: image_data, K.learning_phase(): 0})
 

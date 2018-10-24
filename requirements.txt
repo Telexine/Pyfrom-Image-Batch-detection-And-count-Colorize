@@ -5,3 +5,4 @@ PILLOW==5.1.0
 tensorflow==1.8.0
 opencv-python
 keras
+pymongo
